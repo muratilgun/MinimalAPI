@@ -21,5 +21,14 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.MapGet("/",()=> "Welcome to the Super Hero DB! ❤");
 
+app.MapGet("/superheroes",async (DataContext context)=> await context.SuperHeroes.ToListAsync());
+
+app.MapGet("/superhero/{id}",
+    async (DataContext context, int id) =>
+    await context.SuperHeroes.FindAsync(id) is SuperHero hero ? 
+    Results.Ok(hero) : Results.NotFound("Sorry, hero not found. :/"));
+
+
+
 app.Run();
 

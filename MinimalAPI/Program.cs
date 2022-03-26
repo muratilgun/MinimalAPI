@@ -37,7 +37,16 @@ app.MapPost("/superhero", async (DataContext context, SuperHero hero) =>
      await context.SaveChangesAsync();
      return Results.Ok(await GetAllHeroes(context));
  });
-
+app.MapPut("/superhero/{id}", async (DataContext context, SuperHero hero, int id) =>
+{
+    var dbHero = await context.SuperHeroes.FindAsync(id);
+    if (dbHero == null) return Results.NotFound("No hero found. :/");
+    dbHero.Firstname = hero.Firstname;
+    dbHero.Lastname = hero.Lastname;
+    dbHero.Heroname = hero.Heroname;
+    await context.SaveChangesAsync();
+    return Results.Ok(await GetAllHeroes(context));
+});
 
 app.Run();
 

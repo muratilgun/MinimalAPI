@@ -50,7 +50,7 @@ app.MapPut("/superhero/{id}", async (DataContext context, SuperHero hero, int id
 
 app.MapDelete("/superhero/{id}", async (DataContext context, int id) =>
  {
-     var dbHero = await context.SuperHeroes.FindAsync();
+     var dbHero = await context.SuperHeroes.FindAsync(id);
      if (dbHero == null) return Results.NotFound("Who's that?");
      context.SuperHeroes.Remove(dbHero);
      await context.SaveChangesAsync();
